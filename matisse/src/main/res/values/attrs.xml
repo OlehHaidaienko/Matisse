@@ -14,6 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   -->
+<!--Modified for Connectt project-->
 <resources>
     <attr name="toolbar" format="reference"/>
     <attr name="album.dropdown.title.color" format="reference|color"/>
@@ -32,5 +33,6 @@
     <attr name="item.placeholder" format="reference|color"/>
     <attr name="item.checkCircle.backgroundColor" format="reference|color"/>
     <attr name="item.checkCircle.borderColor" format="reference|color"/>
-    <attr name="capture.textColor" format="reference|color"/>
+    <attr name="main.tintColor" format="reference|color"/>
+    <attr name="spinner.textStyle" format="reference"/>
 </resources>

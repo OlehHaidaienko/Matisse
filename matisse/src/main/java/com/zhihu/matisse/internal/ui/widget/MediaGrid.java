@@ -29,12 +29,15 @@ import com.zhihu.matisse.R;
 import com.zhihu.matisse.internal.entity.Item;
 import com.zhihu.matisse.internal.entity.SelectionSpec;
 
+import static com.zhihu.matisse.internal.ui.widget.CheckView.UNCHECKED;
+/*Modified for Connectt project*/
 public class MediaGrid extends SquareFrameLayout implements View.OnClickListener {
 
     private ImageView mThumbnail;
     private CheckView mCheckView;
     private ImageView mGifTag;
     private TextView mVideoDuration;
+    private View hightlightView;
 
     private Item mMedia;
     private PreBindInfo mPreBindInfo;
@@ -57,19 +60,15 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
         mCheckView = (CheckView) findViewById(R.id.check_view);
         mGifTag = (ImageView) findViewById(R.id.gif);
         mVideoDuration = (TextView) findViewById(R.id.video_duration);
+        hightlightView = findViewById(R.id.highlight_view);
 
         mThumbnail.setOnClickListener(this);
-        mCheckView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (mListener != null) {
-            if (v == mThumbnail) {
-                mListener.onThumbnailClicked(mThumbnail, mMedia, mPreBindInfo.mViewHolder);
-            } else if (v == mCheckView) {
-                mListener.onCheckViewClicked(mCheckView, mMedia, mPreBindInfo.mViewHolder);
-            }
+            mListener.onCheckViewClicked(mCheckView, mMedia, mPreBindInfo.mViewHolder);
         }
     }
 
@@ -103,10 +102,13 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
 
     public void setCheckedNum(int checkedNum) {
         mCheckView.setCheckedNum(checkedNum);
+        mCheckView.setVisibility(checkedNum == UNCHECKED ? View.GONE : View.VISIBLE);
+        hightlightView.setVisibility(checkedNum == UNCHECKED ? View.GONE : View.VISIBLE);
     }
 
     public void setChecked(boolean checked) {
         mCheckView.setChecked(checked);
+        mCheckView.setVisibility(mCheckView.isChecked() ? View.VISIBLE : View.GONE);
     }
 
     private void setImage() {

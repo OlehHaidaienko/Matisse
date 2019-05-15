@@ -34,6 +34,7 @@ import android.view.View;
 
 import com.zhihu.matisse.R;
 
+/*Modified for Connectt project*/
 public class CheckView extends View {
 
     public static final int UNCHECKED = Integer.MIN_VALUE;
@@ -225,5 +226,13 @@ public class CheckView extends View {
         }
 
         return mCheckRect;
+    }
+
+    public boolean isChecked() {
+        return mChecked;
+    }
+
+    public boolean isEnabled() {
+        return mEnabled;
     }
 }
