@@ -26,17 +26,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.zhihu.matisse.R;
 import com.zhihu.matisse.internal.entity.Album;
@@ -55,6 +57,7 @@ import com.zhihu.matisse.internal.ui.widget.IncapableDialog;
 import com.zhihu.matisse.internal.utils.MediaStoreCompat;
 import com.zhihu.matisse.internal.utils.PathUtils;
 import com.zhihu.matisse.internal.utils.PhotoMetadataUtils;
+import com.zhihu.matisse.internal.utils.SingleMediaScanner;
 
 import java.util.ArrayList;
 
@@ -136,7 +139,6 @@ public class MatisseActivity extends AppCompatActivity implements
         if (savedInstanceState != null) {
             mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
         }
-        updateBottomToolbar();
 
         mAlbumsAdapter = new AlbumsAdapter(this, null, false);
         mAlbumsSpinner = new AlbumsSpinner(this);
@@ -223,7 +225,6 @@ public class MatisseActivity extends AppCompatActivity implements
                 if (mediaSelectionFragment instanceof MediaSelectionFragment) {
                     ((MediaSelectionFragment) mediaSelectionFragment).refreshMediaGrid();
                 }
-                updateBottomToolbar();
             }
         } else if (requestCode == REQUEST_CODE_CAPTURE) {
             // Just pass the data back to previous calling Activity.
@@ -240,36 +241,15 @@ public class MatisseActivity extends AppCompatActivity implements
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
                 MatisseActivity.this.revokeUriPermission(contentUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            new SingleMediaScanner(this.getApplicationContext(), path, new SingleMediaScanner.ScanListener() {
+                @Override
+                public void onScanFinish() {
+                    Log.i("SingleMediaScanner", "scan finish!");
+                }
+            });
             finish();
         }
-    }
-
-    private void updateBottomToolbar() {
-
-//        int selectedCount = mSelectedCollection.count();
-//        if (selectedCount == 0) {
-//            mButtonPreview.setEnabled(false);
-//            mButtonApply.setEnabled(false);
-//            mButtonApply.setText(getString(R.string.button_sure_default));
-//        } else if (selectedCount == 1 && mSpec.singleSelectionModeEnabled()) {
-//            mButtonPreview.setEnabled(true);
-//            mButtonApply.setText(R.string.button_sure_default);
-//            mButtonApply.setEnabled(true);
-//        } else {
-//            mButtonPreview.setEnabled(true);
-//            mButtonApply.setEnabled(true);
-//            mButtonApply.setText(getString(R.string.button_sure, selectedCount));
-//        }
-
-
-//        if (mSpec.originalable) {
-//            mOriginalLayout.setVisibility(View.VISIBLE);
-//            updateOriginalState();
-//        } else {
-//            mOriginalLayout.setVisibility(View.INVISIBLE);
-//        }
-
-
     }
 
 
@@ -400,8 +380,6 @@ public class MatisseActivity extends AppCompatActivity implements
 
     @Override
     public void onUpdate() {
-        // notify bottom toolbar that check state changed.
-        updateBottomToolbar();
 
         if (mSpec.onSelectedListener != null) {
             mSpec.onSelectedListener.onSelected(
