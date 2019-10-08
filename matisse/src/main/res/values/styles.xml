@@ -12,8 +12,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  -->
-<!--Modified for Connectt project-->
+  --><!--Modified for Connectt project-->
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     //====================================== Theme Zhihu ===========================================
@@ -98,4 +97,12 @@
         <item name="android:popupBackground">@color/dracula_album_popup_bg</item>
     </style>
 
+    <style name="TranslucentTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
 </resources>

@@ -37,7 +37,7 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
     private CheckView mCheckView;
     private ImageView mGifTag;
     private TextView mVideoDuration;
-    private View hightlightView;
+    private View highlightView;
 
     private Item mMedia;
     private PreBindInfo mPreBindInfo;
@@ -60,7 +60,7 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
         mCheckView = (CheckView) findViewById(R.id.check_view);
         mGifTag = (ImageView) findViewById(R.id.gif);
         mVideoDuration = (TextView) findViewById(R.id.video_duration);
-        hightlightView = findViewById(R.id.highlight_view);
+        highlightView = findViewById(R.id.highlight_view);
 
         mThumbnail.setOnClickListener(this);
     }
@@ -103,12 +103,13 @@ public class MediaGrid extends SquareFrameLayout implements View.OnClickListener
     public void setCheckedNum(int checkedNum) {
         mCheckView.setCheckedNum(checkedNum);
         mCheckView.setVisibility(checkedNum == UNCHECKED ? View.GONE : View.VISIBLE);
-        hightlightView.setVisibility(checkedNum == UNCHECKED ? View.GONE : View.VISIBLE);
+        highlightView.setVisibility(checkedNum == UNCHECKED ? View.GONE : View.VISIBLE);
     }
 
     public void setChecked(boolean checked) {
         mCheckView.setChecked(checked);
         mCheckView.setVisibility(mCheckView.isChecked() ? View.VISIBLE : View.GONE);
+        highlightView.setVisibility(mCheckView.isChecked()? View.VISIBLE : View.GONE);
     }
 
     private void setImage() {
